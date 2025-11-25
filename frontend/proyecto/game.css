@@ -1,0 +1,7 @@
+body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #222; color: white; font-family: monospace; }
+.game-container { text-align: center; position: relative; }
+canvas { background: white; border-bottom: 5px solid #555; display: block; margin: 0 auto; }
+.hud { display: flex; justify-content: space-between; width: 800px; margin: 0 auto 5px; }
+.hidden { display: none; }
+#gameOverScreen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); padding: 20px; border: 2px solid white; }
+.leaderboard { margin-top: 20px; background: #333; padding: 10px; width: 800px; margin: auto; }

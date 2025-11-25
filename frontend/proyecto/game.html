@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>RunnerJS - Jugar</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">🎮 RunnerJS</div>
+            <nav class="main-nav">
+                <a href="../index.html">Inicio</a>
+                <a href="#" class="active">Proyecto</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="game-title-section">
+            <h1 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0.5rem;">RunnerJS Game</h1>
+            <p class="game-subtitle">Salta para esquivar obstáculos. ¡Alcanza el máximo puntaje!</p>
+        </div>
+        
+        <div class="game-tabs">
+            <button class="tab-btn active" data-target="game-section">Jugar</button>
+            <button class="tab-btn" data-target="leaderboard-section">Tabla de clasificación</button>
+        </div>
+
+        <div id="game-section" class="tab-content active">
+            <div class="hud-container">
+                <div class="hud-box">
+                    <span class="hud-label">Puntuación</span>
+                    <span class="hud-value text-orange" id="score">0</span>
+                </div>
+                <div class="hud-box">
+                    <span class="hud-label">Nivel</span>
+                    <span class="hud-value text-blue" id="level">1</span>
+                </div>
+                <div class="hud-box">
+                    <span class="hud-label">Máxima</span>
+                    <span class="hud-value text-cyan" id="highScore">0</span>
+                </div>
+            </div>
+
+            <div class="game-wrapper">
+                <canvas id="gameCanvas" width="800" height="400"></canvas>
+                
+                <div id="startOverlay" class="overlay">
+                    <div class="play-icon">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 3L19 12L5 21V3Z" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2>¡Listo para jugar!</h2>
+                    <p>Presiona ESPACIO o ↑ para saltar</p>
+                    <button id="startBtn" class="btn btn-orange">Comenzar</button>
+                </div>
+
+                <div id="gameOverModal" class="overlay game-over-overlay hidden">
+                    <h2>Game Over</h2>
+                    <p>Puntuación Final</p>
+                    <div class="final-score" id="finalScore">0</div>
+                    <input type="text" id="playerName" class="input-name" placeholder="Tu nombre" maxlength="20">
+                    <div class="game-over-actions">
+                        <button class="btn btn-orange" onclick="submitScore()">Guardar Puntuación</button>
+                        <button class="btn btn-icon" onclick="resetGame()">↻</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions-box">
+                <h3>Instrucciones</h3>
+                <ul>
+                    <li>• Presiona <span class="key-badge">ESPACIO</span> o <span class="key-badge">↑</span> para saltar</li>
+                    <li>• Esquiva los obstáculos rojos para seguir avanzando</li>
+                    <li>• La dificultad aumenta cada 500 puntos (nuevo nivel)</li>
+                    <li>• Tu mejor puntuación se guarda automáticamente</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="leaderboard-section" class="leaderboard-section tab-content">
+            <div class="leaderboard-header">
+                <div class="trophy-icon">🏆</div>
+                <h2>Tabla de clasificación</h2>
+                <p class="game-subtitle">Los mejores 10 jugadores de RunnerJS</p>
+            </div>
+            <ul id="leaderboardList" class="leaderboard-list">
+                <li>Cargando...</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script src="api.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
