@@ -31,8 +31,10 @@ tabBtns.forEach(btn => {
     });
 });
 
-document.querySelector('.tab-btn.active').click();
-
+// Click inicial en la pestaña activa
+if(document.querySelector('.tab-btn.active')) {
+    document.querySelector('.tab-btn.active').click();
+}
 
 startBtn.addEventListener('click', () => {
     startGame();
@@ -109,22 +111,48 @@ window.resetGame = function() {
 
 window.submitScore = function() {
     const name = document.getElementById('playerName').value || "Anon";
-    saveScoreToBackend(name, score, level);
+    // Verificamos si la función existe antes de llamarla (por si acaso)
+    if(window.saveScoreToBackend) saveScoreToBackend(name, score, level);
     resetGame();
+    // Detenemos el juego para ir al leaderboard
+    gameRunning = false; 
     document.querySelector('[data-target="leaderboard-section"]').click();
 };
 
+// ==========================================
+// NUEVA LÓGICA DE CONTROLES (PC Y CELULAR)
+// ==========================================
+
+function handleJump(e) {
+    // Si tocas un input o botón, no saltar (para poder escribir nombre)
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+
+    // Lógica para Iniciar o Saltar
+    if (!gameStarted && !startOverlay.classList.contains('hidden')) {
+         startGame();
+    } else if(gameRunning && player.grounded) { 
+         player.dy = player.jumpStrength; player.grounded = false; 
+    }
+}
+
+// 1. Teclado (Espacio y Flecha Arriba)
 window.addEventListener('keydown', e => {
     if((e.code === 'Space' || e.code === 'ArrowUp')) {
         e.preventDefault();
-        if (!gameStarted && !startOverlay.classList.contains('hidden')) {
-             startGame();
-        } else if(gameRunning && player.grounded) { 
-             player.dy = player.jumpStrength; player.grounded = false; 
-        }
+        handleJump(e);
     }
 });
 
+// 2. Pantalla Táctil (Celulares)
+window.addEventListener('touchstart', (e) => {
+    // e.preventDefault(); // Descomenta si la pantalla se mueve al tocar
+    handleJump(e);
+}, { passive: false });
+
+// 3. Mouse (Clic en PC)
+window.addEventListener('mousedown', handleJump);
+
+// Carga automática de pestaña por URL
 window.addEventListener('load', () => {
     if (window.location.hash === '#leaderboard') {
         const lbBtn = document.querySelector('[data-target="leaderboard-section"]');
