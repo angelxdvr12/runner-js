@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/scores';
+const API_URL = 'http://https://runner-api-w8my.onrender.com/api/scores';
 
 async function saveScoreToBackend(nombre, score, nivel) {
     try {
